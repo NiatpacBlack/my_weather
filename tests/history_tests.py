@@ -20,11 +20,16 @@ class WeatherFormatterTest(TestCase):
         )
 
     def test_save_weather(self):
+        """
+        Checking the save_weather() function.
+
+        The test checks the function's ability to write data to a file.
+        """
         test_text = f"{datetime.now()}\n{format_weather(self.weather)}\n"
         file_path = Path.cwd() / "tests/history_test.txt"
         save_weather(self.weather, PlainFileWeatherStorage(file=file_path))
-        with open(file_path, "r") as f:
-            history_text = f.read()
+        with open(file_path, "r", encoding="windows-1251") as open_file:
+            history_text = open_file.read()
         self.assertIn(test_text, history_text)
 
 
