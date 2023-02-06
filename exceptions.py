@@ -10,4 +10,4 @@ class ApiServiceError(Exception):
 
 
 class GettingWindowsLocationError(Exception):
-    """The error appears when there is no access to the location in the Windows settings."""
+    """Ошибка доступа к геолокации в Windows OS."""

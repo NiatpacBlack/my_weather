@@ -28,17 +28,23 @@ class WeatherApiServiceTest(TestCase):
         """
         Checking the get_weather_by_coords() function.
 
-        The test verifies that the data returned by the function matches the Weather data type.
-        The test verifies that the function returns the desired exception under certain conditions.
+        The test verifies that the data returned by the function matches
+        the Weather data type.
+
+        The test verifies that the function returns the desired exception
+        under certain conditions.
         """
         self.assertIsInstance(
-            get_weather_by_coords(self.my_location,
-                                  os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY),
+            get_weather_by_coords(
+                self.my_location,
+                os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY),
             Weather,
         )
         with self.assertRaises(AttributeError):
-            get_weather_by_coords((45.23, 125.52),
-                                  os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY)
+            get_weather_by_coords(
+                (45.23, 125.52),
+                os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,
+            )
         with self.assertRaises(CantGetWeather):
             get_weather_by_coords(self.my_location, "123456789")
 

@@ -1,12 +1,12 @@
 """Testing the functionality of the coordinates.py file."""
 from unittest import TestCase, main
 
-from coordinates import MyCoords, Coordinates
+from coordinates import MyCoordsWin, Coordinates
 
 
 class MyCoordsTest(TestCase):
     def setUp(self):
-        self.my_coords = MyCoords()
+        self.my_coords = MyCoordsWin()
 
     def test_get_location(self):
         """

@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import TestCase, main
 
 from config import OPENWEATHER_API_KEY
-from coordinates import MyCoords
+from coordinates import MyCoordsWin
 from history import save_weather, PlainFileWeatherStorage
 from weather_api_service import get_weather_by_coords
 from weather_formatter import format_weather
@@ -13,7 +13,7 @@ from weather_formatter import format_weather
 
 class WeatherFormatterTest(TestCase):
     def setUp(self):
-        self.my_location = MyCoords().get_location()
+        self.my_location = MyCoordsWin().get_location()
         self.weather = get_weather_by_coords(
             coordinates=self.my_location,
             api_key=os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,

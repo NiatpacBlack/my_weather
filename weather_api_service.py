@@ -14,7 +14,8 @@ Celsius: TypeAlias = int
 
 
 class WeatherType(Enum):
-    """A description of the data type with options for describing weather conditions."""
+    """The data type with options for describing weather conditions."""
+
     THUNDERSTORM = "Гроза"
     DRIZZLE = "Изморось"
     RAIN = "Дождь"
@@ -30,6 +31,7 @@ class WeatherType(Enum):
 @dataclass(slots=True, frozen=True)
 class Weather:
     """Description of data types for general weather information."""
+
     temperature: Celsius
     feels_like: Celsius
     weather_type: WeatherType
@@ -39,7 +41,7 @@ class Weather:
 
 
 def get_weather_by_coords(coordinates: Coordinates, api_key: str) -> Weather:
-    """Returns a dictionary of weather data at a specific latitude and longitude point."""
+    """Returns weather data at a specific latitude and longitude point."""
     openweather_response = _get_openweather_response(
         latitude=coordinates.latitude,
         longitude=coordinates.longitude,
@@ -50,7 +52,7 @@ def get_weather_by_coords(coordinates: Coordinates, api_key: str) -> Weather:
 
 
 def _get_openweather_response(
-        latitude: float, longitude: float, api_key: str
+    latitude: float, longitude: float, api_key: str
 ) -> dict[str, object]:
     api_url = "https://api.openweathermap.org/data/2.5/weather"
     url_parameters = {
@@ -60,7 +62,9 @@ def _get_openweather_response(
         "lang": "ru",
         "appid": api_key,
     }
-    all_weather_by_coords = requests.get(api_url, params=url_parameters, timeout=10).json()
+    all_weather_by_coords = requests.get(
+        api_url, params=url_parameters, timeout=10
+    ).json()
     if all_weather_by_coords["cod"] != 200:
         raise CantGetWeather()
     return all_weather_by_coords
@@ -107,7 +111,7 @@ def _parse_weather_type(openweather_response: dict) -> WeatherType:
 
 
 def _parse_sun_time(
-        openweather_response: dict, time: Literal["sunrise"] | Literal["sunset"]
+    openweather_response: dict, time: Literal["sunrise"] | Literal["sunset"]
 ) -> datetime:
     timestamp = openweather_response["sys"][time]
     return datetime.fromtimestamp(timestamp)

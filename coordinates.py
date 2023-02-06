@@ -10,13 +10,14 @@ from exceptions import GettingWindowsLocationError
 @dataclass(slots=True, frozen=True)
 class Coordinates:
     """Data type descriptions for coordinates."""
+
     latitude: float
     longitude: float
 
 
-class MyCoords:
+class MyCoordsWin:
     """
-    A class that allows you to find out the current location (latitude, longitude) gps data.
+    A class that allows you to find out the current geolocation gps data.
     Designed for Windows OS.
     """
 
@@ -34,12 +35,23 @@ class MyCoords:
             self.my_position = await self.locator.get_geoposition_async()
         except PermissionError as exc:
             raise GettingWindowsLocationError(
-                "ERROR: You need to allow applications to access you location in Windows settings"
+                "ERROR: You need to allow applications "
+                "to access you location in Windows settings"
             ) from exc
         return Coordinates(
-            self.my_position.coordinate.latitude, self.my_position.coordinate.longitude
+            self.my_position.coordinate.latitude,
+            self.my_position.coordinate.longitude,
         )
 
 
-if __name__ == '__main__':
-    my_location = MyCoords().get_location()
+class MyCoordsLinux:
+    """
+    A class that allows you to find out the current geolocation gps data.
+    Designed for Linux OS.
+    """
+
+    pass
+
+
+if __name__ == "__main__":
+    my_location = MyCoordsWin().get_location()
