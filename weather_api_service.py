@@ -1,9 +1,10 @@
+"""Functionality for getting weather data from openweathermap.org."""
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import TypeAlias, Literal
 
-import requests as requests
+import requests
 
 from coordinates import Coordinates
 from exceptions import CantGetWeather, ApiServiceError
@@ -13,6 +14,7 @@ Celsius: TypeAlias = int
 
 
 class WeatherType(Enum):
+    """A description of the data type with options for describing weather conditions."""
     THUNDERSTORM = "Гроза"
     DRIZZLE = "Изморось"
     RAIN = "Дождь"
@@ -27,6 +29,7 @@ class WeatherType(Enum):
 
 @dataclass(slots=True, frozen=True)
 class Weather:
+    """Description of data types for general weather information."""
     temperature: Celsius
     feels_like: Celsius
     weather_type: WeatherType
@@ -47,9 +50,9 @@ def get_weather_by_coords(coordinates: Coordinates, api_key: str) -> Weather:
 
 
 def _get_openweather_response(
-    latitude: float, longitude: float, api_key: str
+        latitude: float, longitude: float, api_key: str
 ) -> dict[str, object]:
-    api_url = f"https://api.openweathermap.org/data/2.5/weather"
+    api_url = "https://api.openweathermap.org/data/2.5/weather"
     url_parameters = {
         "lat": latitude,
         "lon": longitude,
@@ -57,7 +60,7 @@ def _get_openweather_response(
         "lang": "ru",
         "appid": api_key,
     }
-    all_weather_by_coords = requests.get(api_url, params=url_parameters).json()
+    all_weather_by_coords = requests.get(api_url, params=url_parameters, timeout=10).json()
     if all_weather_by_coords["cod"] != 200:
         raise CantGetWeather()
     return all_weather_by_coords
@@ -73,8 +76,8 @@ def _parse_openweather_response(openweather_response: dict) -> Weather:
             sunset=_parse_sun_time(openweather_response, "sunset"),
             city=_parse_city(openweather_response),
         )
-    except (IndexError, KeyError):
-        raise ApiServiceError
+    except (IndexError, KeyError) as exc:
+        raise ApiServiceError from exc
     return weather
 
 
@@ -104,7 +107,7 @@ def _parse_weather_type(openweather_response: dict) -> WeatherType:
 
 
 def _parse_sun_time(
-    openweather_response: dict, time: Literal["sunrise"] | Literal["sunset"]
+        openweather_response: dict, time: Literal["sunrise"] | Literal["sunset"]
 ) -> datetime:
     timestamp = openweather_response["sys"][time]
     return datetime.fromtimestamp(timestamp)

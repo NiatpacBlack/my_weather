@@ -1,3 +1,4 @@
+"""Testing the functionality of the coordinates.py file."""
 from unittest import TestCase, main
 
 from coordinates import MyCoords, Coordinates

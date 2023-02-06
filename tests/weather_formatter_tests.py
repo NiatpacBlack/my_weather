@@ -1,3 +1,4 @@
+"""Testing the functionality of the weather_formatter.py file."""
 from unittest import TestCase, main
 
 from config import OPENWEATHER_API_KEY

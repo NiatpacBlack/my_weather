@@ -1,3 +1,4 @@
+"""Logging configuration."""
 from loguru import logger
 
 from config import LOG_LEVEL

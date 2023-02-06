@@ -1,3 +1,4 @@
+"""Testing the functionality of the history.py file."""
 import os
 from datetime import datetime
 from pathlib import Path

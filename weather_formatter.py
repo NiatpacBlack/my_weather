@@ -1,3 +1,4 @@
+"""String formatting functionality for outputting the weather response to the console."""
 from weather_api_service import Weather
 
 
