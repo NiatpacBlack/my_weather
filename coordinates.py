@@ -2,8 +2,11 @@
 import asyncio
 from dataclasses import dataclass
 
-import winsdk.windows.devices.geolocation as wdg
 
+try:
+    import winsdk.windows.devices.geolocation as wdg
+except ImportError:
+    wdg = None
 from exceptions import GettingWindowsLocationError
 
 
@@ -30,7 +33,12 @@ class MyCoordsWin:
         return asyncio.run(self._get_coords())
 
     async def _get_coords(self) -> Coordinates:
-        self.locator = wdg.Geolocator()
+        try:
+            self.locator = wdg.Geolocator()
+        except AttributeError as exc:
+            raise GettingWindowsLocationError(
+                "ERROR: This method is for Windows OS"
+            ) from exc
         try:
             self.my_position = await self.locator.get_geoposition_async()
         except PermissionError as exc:

@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 from config import OPENWEATHER_API_KEY
-from coordinates import MyCoordsWin
+from coordinates import MyCoordsWin, Coordinates
 from exceptions import GettingWindowsLocationError, CantGetWeather
 from history import PlainFileWeatherStorage, save_weather
 from log_config import logger
@@ -16,12 +16,17 @@ from weather_formatter import format_weather
 def main():
     """The function to launch the application."""
     try:
-        my_location = MyCoordsWin().get_location() if os.name == "nt" else None
+        if os.name == 'nt':
+            my_location = MyCoordsWin().get_location()
+        else:
+            my_location = Coordinates(latitude=51.505, longitude=-0.09)
     except GettingWindowsLocationError:
         logger.exception(
-            "Программа не смогла получить данные геолокации из вашей системы.")
+            "Программа не смогла получить данные геолокации из вашей системы."
+        )
         print(
-            "Программа не смогла получить данные геолокации из вашей системы.")
+            "Программа не смогла получить данные геолокации из вашей системы."
+        )
         sys.exit(1)
     try:
         weather = get_weather_by_coords(
