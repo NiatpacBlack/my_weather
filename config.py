@@ -1,7 +1,10 @@
 """Application configuration."""
+import os
+
 
 # The variable stores the api key for connecting to openweathermap.org
-OPENWEATHER_API_KEY = "82d4836915fde853f33b321a367a71f3"
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY") or \
+                      "your_api_key"
 
 # The variable stores the logging level
 LOG_LEVEL = "DEBUG"

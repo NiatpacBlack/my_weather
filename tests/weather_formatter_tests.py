@@ -1,5 +1,4 @@
 """Testing the functionality of the weather_formatter.py file."""
-import os
 from unittest import TestCase, main
 
 from config import OPENWEATHER_API_KEY
@@ -13,7 +12,7 @@ class WeatherFormatterTest(TestCase):
         self.my_location = MyCoordsWin().get_location()
         self.weather = get_weather_by_coords(
             coordinates=self.my_location,
-            api_key=os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,
+            api_key=OPENWEATHER_API_KEY,
         )
 
     def test_format_weather(self):

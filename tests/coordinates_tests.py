@@ -1,10 +1,12 @@
 """Testing the functionality of the coordinates.py file."""
-from unittest import TestCase, main
+import os
+from unittest import TestCase, main, skipIf
 
-from coordinates import MyCoordsWin, Coordinates
+from coordinates import MyCoordsWin, MyCoordsLinux, Coordinates
 
 
-class MyCoordsTest(TestCase):
+@skipIf(os.name != "nt", "Tests are not running on Linux")
+class MyCoordsWinTest(TestCase):
     def setUp(self):
         self.my_coords = MyCoordsWin()
 
@@ -15,6 +17,11 @@ class MyCoordsTest(TestCase):
         The function must return coordinates in the Coordinates format.
         """
         self.assertIsInstance(self.my_coords.get_location(), Coordinates)
+
+
+@skipIf(os.name != "posix", "Tests are not running on Windows")
+class MyCoordsLinuxTest(TestCase):
+    pass
 
 
 if __name__ == "__main__":

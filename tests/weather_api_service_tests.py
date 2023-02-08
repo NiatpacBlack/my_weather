@@ -1,5 +1,4 @@
 """Testing the functionality of the weather_api_service.py file."""
-import os
 from copy import deepcopy
 from unittest import TestCase, main
 
@@ -21,7 +20,7 @@ class WeatherApiServiceTest(TestCase):
         self.openweather_response = _get_openweather_response(
             latitude=self.my_location.latitude,
             longitude=self.my_location.longitude,
-            api_key=os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,
+            api_key=OPENWEATHER_API_KEY,
         )
 
     def test_get_weather_by_coords(self):
@@ -37,13 +36,14 @@ class WeatherApiServiceTest(TestCase):
         self.assertIsInstance(
             get_weather_by_coords(
                 self.my_location,
-                os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY),
+                OPENWEATHER_API_KEY,
+            ),
             Weather,
         )
         with self.assertRaises(AttributeError):
             get_weather_by_coords(
                 (45.23, 125.52),
-                os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,
+                OPENWEATHER_API_KEY,
             )
         with self.assertRaises(CantGetWeather):
             get_weather_by_coords(self.my_location, "123456789")

@@ -1,5 +1,4 @@
 """Testing the functionality of the history.py file."""
-import os
 from datetime import datetime
 from pathlib import Path
 from unittest import TestCase, main
@@ -16,7 +15,7 @@ class WeatherFormatterTest(TestCase):
         self.my_location = MyCoordsWin().get_location()
         self.weather = get_weather_by_coords(
             coordinates=self.my_location,
-            api_key=os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,
+            api_key=OPENWEATHER_API_KEY,
         )
 
     def test_save_weather(self):

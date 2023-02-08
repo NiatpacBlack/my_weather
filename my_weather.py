@@ -21,30 +21,26 @@ def main():
         else:
             my_location = Coordinates(latitude=51.505, longitude=-0.09)
     except GettingWindowsLocationError:
-        logger.exception(
-            "Программа не смогла получить данные геолокации из вашей системы."
-        )
-        print(
-            "Программа не смогла получить данные геолокации из вашей системы."
-        )
+        error_message = "Программа не смогла получить данные геолокации " \
+                        "из вашей системы."
+        logger.exception(error_message)
+        print(error_message)
         sys.exit(1)
     try:
         weather = get_weather_by_coords(
             my_location,
-            os.getenv("OPENWEATHER_API_KEY") or OPENWEATHER_API_KEY,
+            OPENWEATHER_API_KEY,
         )
     except CantGetWeather:
-        logger.exception(
-            "Программа не смогла получить данные о погоде в сервисе "
-            "OpenWeatherMap."
-        )
-        print(
-            "Программа не смогла получить данные о погоде в сервисе " 
-            "OpenWeatherMap."
-        )
+        error_message = "Программа не смогла получить данные " \
+                        "о погоде в сервисе OpenWeatherMap."
+        logger.exception(error_message)
+        print(error_message)
         sys.exit(1)
-    save_weather(weather,
-                 PlainFileWeatherStorage(file=Path.cwd() / "history.txt"))
+    save_weather(
+        weather,
+        PlainFileWeatherStorage(file=Path.cwd() / "history.txt"),
+    )
     print(format_weather(weather))
 
 
